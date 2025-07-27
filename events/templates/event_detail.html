@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Event Detail{% endblock %}
+{% block content %}
+<header class="mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold">{{ event.name }}</h1>
+    <a href="{% url 'event-list' %}" class="text-rose-600 hover:underline">Back to Events</a>
+</header>
+
+<div class="bg-white p-6 rounded shadow">
+    <p><strong>Date:</strong> {{ event.date }}</p>
+    <p><strong>Time:</strong> {{ event.time }}</p>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    <p><strong>Category:</strong> {{ event.category.name }}</p>
+    <p class="mt-4">{{ event.description }}</p>
+
+    <h3 class="mt-8 mb-2 font-semibold text-lg">Participants ({{ event.participants.count }})</h3>
+    <ul class="list-disc pl-6">
+        {% for participant in event.participants.all %}
+        <li>{{ participant.name }} ({{ participant.email }})</li>
+        {% empty %}
+        <li>No participants registered.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -15,6 +15,7 @@ from events.views import (
     category_update,
     category_delete,
 )
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', RedirectView.as_view(url='dashboard/', permanent=False)),

@@ -104,6 +104,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default='postgresql://event_manager_db_w2zy_user:WMnOQXSQn1Q6mFqZ32YhaacHzvMoYZGD@dpg-d23537umcj7s73d63uog-a.oregon-postgres.render.com/event_manager_db_w2zy',
         conn_max_age=600
+        
     )
 }
 

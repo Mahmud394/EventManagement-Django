@@ -17,6 +17,7 @@ from events.views import (
 )
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='dashboard/', permanent=False)),
     path('dashboard/', dashboard_view, name='dashboard'),
 
     path('list/', event_list, name='event-list'),

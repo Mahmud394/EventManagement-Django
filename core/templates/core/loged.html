@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% block title %}You're Logged In{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto py-12">
+    <div class="bg-white p-8 rounded-lg shadow text-center">
+      <svg class="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M5 13l4 4L19 7" />
+      </svg>
+
+      <h1 class="mt-4 text-2xl font-semibold">You are logged in</h1>
+      <p class="mt-2 text-gray-600">Welcome back, <span class="font-medium">{{ user.get_full_name|default:user.username }}</span>.</p>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <a href="{% url 'users:profile' %}" class="px-4 py-3 bg-blue-600 text-white rounded">My Dashboard</a>
+        <a href="{% url 'events:event_list' %}" class="px-4 py-3 bg-white border rounded">Browse Events</a>
+        {% if user.groups.filter(name='Organizer').exists or user.is_superuser %}
+          <a href="{% url 'events:dashboard' %}" class="px-4 py-3 bg-yellow-500 text-white rounded">Organizer Dashboard</a>
+        {% endif %}
+      </div>
+
+      <p class="mt-4 text-sm text-gray-500">Use the navigation bar to manage events, categories and RSVPs based on your role.</p>
+    </div>
+  </div>
+{% endblock %}

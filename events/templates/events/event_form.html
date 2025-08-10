@@ -1,0 +1,73 @@
+{% load widget_tweaks %}
+
+<div class="max-w-3xl mx-auto py-10">
+  <h1 class="text-2xl font-semibold mb-6">
+    {{ form.instance.pk|yesno:"Edit Event,Add Event" }}
+  </h1>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-6 bg-white p-6 rounded shadow">
+    {% csrf_token %}
+
+    <div>
+      <label for="{{ form.name.id_for_label }}" class="block font-medium text-gray-700">Name</label>
+      {{ form.name|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+      {% if form.name.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.description.id_for_label }}" class="block font-medium text-gray-700">Description</label>
+      {{ form.description|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+      {% if form.description.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.description.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="{{ form.date.id_for_label }}" class="block font-medium text-gray-700">Date</label>
+        {{ form.date|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+        {% if form.date.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.date.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="{{ form.time.id_for_label }}" class="block font-medium text-gray-700">Time</label>
+        {{ form.time|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+        {% if form.time.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.time.errors.0 }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div>
+      <label for="{{ form.location.id_for_label }}" class="block font-medium text-gray-700">Location</label>
+      {{ form.location|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+      {% if form.location.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.location.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.category.id_for_label }}" class="block font-medium text-gray-700">Category</label>
+      {{ form.category|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+      {% if form.category.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.category.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="{{ form.image.id_for_label }}" class="block font-medium text-gray-700">Image</label>
+      {{ form.image|add_class:"mt-1 block w-full" }}
+      {% if form.image.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Save Event
+    </button>
+  </form>
+</div>

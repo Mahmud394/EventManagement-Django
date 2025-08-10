@@ -1,37 +1,18 @@
-from django.urls import path
-from events.views import (
-    dashboard_view,
-    event_list,
-    event_detail,
-    event_create,
-    event_update,
-    event_delete,
-    participant_list,
-    participant_create,
-    participant_update,
-    participant_delete,
-    category_list,
-    category_create,
-    category_update,
-    category_delete,
-)
-from django.views.generic import RedirectView
+# events/urls.py
+from django.urls import path,include
+from . import views
+
+app_name = "events"
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='dashboard/', permanent=False)),
-    path('dashboard/', dashboard_view, name='dashboard'),
-
-    path('list/', event_list, name='event-list'),
-    path('create/', event_create, name='event-create'),
-    path('detail/<int:pk>/', event_detail, name='event-detail'),
-    path('update/<int:id>/', event_update, name='event-update'),
-    path('delete/<int:id>/', event_delete, name='event-delete'),
-    path('participants/', participant_list, name='participant-list'),
-    path('participants/create/', participant_create, name='participant-create'),
-    path('participants/update/<int:id>/', participant_update, name='participant-update'),
-    path('participants/delete/<int:id>/', participant_delete, name='participant-delete'),
-    path('categories/', category_list, name='category-list'),
-    path('categories/create/', category_create, name='category-create'),
-    path('categories/update/<int:id>/', category_update, name='category-update'),
-    path('categories/delete/<int:id>/', category_delete, name='category-delete'),
+    path("", views.event_list, name="event_list"),
+    path("create/", views.event_create, name="event_create"),
+    path("<int:pk>/", views.event_detail, name="event_detail"),
+    path("<int:pk>/update/", views.event_update, name="event_update"),
+    path("<int:pk>/delete/", views.event_delete, name="event_delete"),
+    path("<int:pk>/rsvp/", views.rsvp_event, name="rsvp_event"),
+    path("dashboard/", views.organizer_dashboard, name="dashboard"),
+    path("api/stats/", views.stats_endpoint, name="stats_endpoint"),
+    path('', include('core.urls')),
+    path('<int:pk>/rsvp/', views.rsvp_event, name='rsvp_event'),
 ]

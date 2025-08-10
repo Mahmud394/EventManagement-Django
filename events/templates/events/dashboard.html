@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% block content %}
+  <h2 class="text-2xl font-bold">Organizer Dashboard</h2>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+    <div class="p-4 bg-white rounded shadow cursor-pointer stat" data-type="all">
+      <h3>Total Participants</h3>
+      <p id="total_participants">{{ total_participants }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow cursor-pointer stat" data-type="all">
+      <h3>Total Events</h3>
+      <p id="total_events">{{ total_events }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow cursor-pointer stat" data-type="upcoming">
+      <h3>Upcoming Events</h3>
+      <p id="upcoming_events">{{ upcoming_events }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow cursor-pointer stat" data-type="past">
+      <h3>Past Events</h3>
+      <p id="past_events">{{ past_events }}</p>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <h3 class="font-semibold">Today's Events</h3>
+    <div id="events_list">
+      {% for e in todays_events %}
+        <div class="p-3 bg-white rounded shadow mt-2">{{ e.name }} — {{ e.date }} ({{ e.rsvps.count }} participants)</div>
+      {% empty %}
+        <p>No events for today.</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.stat').forEach(el => {
+  el.addEventListener('click', () => {
+    const type = el.dataset.type || 'all';
+    fetch("{% url 'events:stats_endpoint' %}?type=" + type, {credentials: 'include'})
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('events_list');
+        list.innerHTML = '';
+        data.events.forEach(ev => {
+          const div = document.createElement('div');
+          div.className = 'p-3 bg-white rounded shadow mt-2';
+          div.textContent = `${ev.name} — ${ev.date} (${ev.participants} participants)`;
+          list.appendChild(div);
+        });
+      });
+  });
+});
+</script>
+{% endblock %}

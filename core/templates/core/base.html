@@ -1,0 +1,50 @@
+<!-- core/templates/core/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Event Management{% endblock %}</title>
+  <!-- Tailwind CDN for quick use (assignment/demo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <nav class="bg-white shadow">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex space-x-4 items-center">
+          <a href="{% url 'core:home' %}" class="flex items-center text-gray-700 hover:text-gray-900">
+            <svg class="h-6 w-6 mr-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 7l9-4 9 4-9 4-9-4z" />
+              <path d="M3 7v7a9 9 0 009 9 9 9 0 009-9V7" />
+            </svg>
+            <span class="font-bold text-lg">Event</span>
+          </a>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <a href="{% url 'events:event_list' %}" class="py-2 px-3 hover:text-blue-600">Events</a>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'users:profile' %}" class="py-2 px-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition">My Dashboard</a>
+            <form method="post" action="{% url 'users:logout' %}" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="py-2 px-3 hover:text-red-600">Logout</button>
+            </form>
+          {% else %}
+            <a href="{% url 'users:login' %}" class="py-2 px-3 hover:text-blue-600">Login</a>
+            <a href="{% url 'users:signup' %}" class="py-2 px-3 bg-green-500 text-white rounded hover:bg-green-600 transition">Sign Up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto p-6 flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

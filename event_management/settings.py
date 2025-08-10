@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-4bwe7d8q*=&j9psddu@hebij(wdiucf8j9hnjt)1u5ilsjck+u
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGIN = ['https://*.onrender.com', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000']
 
 
 # Application definition
@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'events'
+
+    'events',
+    'users',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -53,9 +56,7 @@ MIDDLEWARE = [
 ]
 
 INTERNAL_IPS = [
-    # ...
     "127.0.0.1",
-    # ...
 ]
 
 ROOT_URLCONF = 'event_management.urls'
@@ -63,7 +64,10 @@ ROOT_URLCONF = 'event_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'core/templates',
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,30 +85,10 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# for sqlite 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'event_management',
-#         'USER': 'postgres',
-#         'PASSWORD': '20889',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
-
 DATABASES = {
     'default': dj_database_url.config(
         default='postgresql://event_manager_db_g622_user:p31OUpOh4woGjcwUeTHT9zO5ICyem8VW@dpg-d23g40idbo4c7386g0e0-a.oregon-postgres.render.com/event_manager_db_g622',
         conn_max_age=600
-        
     )
 }
 
@@ -143,12 +127,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
 ]
+
+# Media files
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Custom settings
+
+SITE_URL = "http://127.0.0.1:8000"
+DEFAULT_FROM_EMAIL = "noreply@example.com"
+
+
+# Login redirect URL (important for redirect after login)
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

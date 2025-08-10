@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% block content %}
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-semibold">Events</h2>
+    <a href="{% url 'events:event_create' %}" class="px-4 py-2 bg-blue-600 text-white rounded">Create Event</a>
+  </div>
+
+  <form method="get" class="mt-3 flex gap-2">
+    <input name="q" placeholder="Search by name or location" value="{{ request.GET.q }}" class="border p-2 rounded flex-1">
+    <select name="category" class="border p-2 rounded">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c.id }}" {% if request.GET.category == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+    <input type="date" name="start_date" value="{{ request.GET.start_date }}" class="border p-2 rounded">
+    <input type="date" name="end_date" value="{{ request.GET.end_date }}" class="border p-2 rounded">
+    <button type="submit" class="px-4 py-2 bg-gray-800 text-white rounded">Filter</button>
+  </form>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    {% for e in events %}
+      <div class="bg-white p-4 rounded shadow">
+        <div class="flex">
+          <img src="{{ e.image.url }}" alt="" class="w-24 h-24 object-cover rounded mr-4">
+          <div>
+            <h3 class="text-lg font-bold"><a href="{% url 'events:event_detail' e.pk %}">{{ e.name }}</a></h3>
+            <p class="text-sm text-gray-600">{{ e.date }} {{ e.time }} - {{ e.location }}</p>
+            <p class="mt-2 text-sm">
+  Category:
+  {% if e.category %}
+    {{ e.category.name }}
+  {% else %}
+    No category
+  {% endif %}
+</p>
+
+            <p class="mt-2 text-sm">Participants: {{ e.participant_count }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No events found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

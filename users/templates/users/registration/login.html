@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-24 p-8 bg-white rounded shadow">
+  <h1 class="text-3xl font-semibold mb-6 text-center">Log In to Your Account</h1>
+
+  {% if form.non_field_errors %}
+    <p class="mb-4 text-red-600 text-center">{{ form.non_field_errors.0 }}</p>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <div class="space-y-4">
+      <div>
+        <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+        {{ form.username|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+        {% if form.username.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+        {{ form.password|add_class:"mt-1 block w-full rounded border-gray-300 shadow-sm" }}
+        {% if form.password.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <button type="submit" class="mt-6 w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+      Log In
+    </button>
+  </form>
+
+  <p class="mt-4 text-center text-gray-600">
+    Don't have an account? 
+    <a href="{% url 'users:signup' %}" class="text-blue-600 hover:underline">Sign up</a>
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %}Welcome — Please Log In{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto text-center py-20">
+    <div class="inline-block p-8 bg-white rounded-lg shadow">
+      <svg class="mx-auto h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M16 11V7a4 4 0 10-8 0v4M5 11h14v8a2 2 0 01-2 2H7a2 2 0 01-2-2v-8z"/>
+      </svg>
+
+      <h1 class="mt-4 text-2xl font-semibold">Welcome to EventMgmt</h1>
+      <p class="mt-2 text-gray-600">You are currently not logged in. Please log in or sign up to RSVP, manage events, and access dashboards.</p>
+
+      <div class="mt-6 flex justify-center gap-3">
+        <a href="{% url 'login' %}" class="px-4 py-2 bg-blue-600 text-white rounded">Log in</a>
+        <a href="{% url 'users:signup' %}" class="px-4 py-2 bg-green-600 text-white rounded">Sign up</a>
+        <a href="{% url 'events:event_list' %}" class="px-4 py-2 border rounded">Browse events</a>
+      </div>
+
+      <p class="mt-4 text-sm text-gray-500">Tip: After signing up you'll receive an activation email — activate your account before logging in.</p>
+    </div>
+  </div>
+{% endblock %}
